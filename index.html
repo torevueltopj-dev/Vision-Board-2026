@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision Board 2026</title>
+    
+    <!-- METAS PARA PWA -->
+    <meta name="theme-color" content="#FF4136">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Vision Board 2026">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/1006/1006771.png">
+    
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- ESTILOS IDÉNTICOS A TU WEB -->
+    <style>
+        /* ESTILOS EXACTOS DE TU WEB */
+        :root {
+            --color-primary: #FF4136;
+            --color-secondary: #FFD700;
+            --color-tertiary: #00AEEF;
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray: #495368;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* App Container */
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: white;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Status Bar PWA */
+        .pwa-status-bar {
+            background: var(--color-primary);
+            color: white;
+            padding: 5px 15px;
+            font-size: 12px;
+            text-align: center;
+            display: none;
+        }
+        
+        .pwa-status-bar.visible {
+            display: block;
+        }
+        
+        /* Install Prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            color: white;
+            padding: 15px;
+            border-top: 3px solid var(--color-black);
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .install-prompt.visible {
+            display: block;
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        
+        /* Header con logos */
+        .header-container {
+            padding: 20px;
+            background: white;
+            border-bottom: 5px solid var(--color-black);
+        }
+        
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0 30px 0;
+        }
+        
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 3px solid var(--color-black);
+            box-shadow: 3px 3px 0 var(--color-black);
+            transition: transform 0.2s;
+        }
+        
+        .logo-circle:active {
+            transform: scale(0.95);
+        }
+        
+        .logo-1 { background: var(--color-secondary); }
+        .logo-2 { background: var(--color-tertiary); color: white; }
+        .logo-3 { background: var(--color-white); width: 60px; height: 60px; }
+        .logo-4 { background: var(--color-gray); color: white; }
+        .logo-5 { background: var(--color-black); color: white; }
+        
+        /* Título */
+        .title-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .main-title {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--color-black);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            background: var(--color-black);
+            color: var(--color-white);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 11px;
+            letter-spacing: 2px;
+            display: inline-block;
+        }
+        
+        /* Botones */
+        .button-primary {
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            color: var(--color-white);
+            border: 3px solid var(--color-black);
+            border-radius: 10px;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: calc(100% - 40px);
+            margin: 10px 20px;
+            cursor: pointer;
+            box-shadow: 5px 5px 0 var(--color-black);
+            transition: all 0.2s;
+        }
+        
+        .button-primary:active {
+            transform: translateY(2px);
+            box-shadow: 3px 3px 0 var(--color-black);
+        }
+        
+        /* Notificaciones */
+        .notification-permission {
+            background: var(--color-tertiary);
+            color: white;
+            padding: 15px 20px;
+            margin: 20px;
+            border-radius: 10px;
+            border: 2px solid var(--color-black);
+            display: none;
+        }
+        
+        .notification-permission.visible {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* App Tabs */
+        .app-tabs {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 3px solid var(--color-black);
+            display: flex;
+            padding: 10px 0;
+            z-index: 100;
+        }
+        
+        .tab-button {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background: none;
+            border: none;
+            font-weight: bold;
+            color: var(--color-black);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .tab-button.active {
+            color: var(--color-primary);
+            background: rgba(255, 65, 54, 0.1);
+        }
+        
+        .tab-button:active {
+            background: rgba(255, 65, 54, 0.2);
+        }
+        
+        /* Contenido de pestañas */
+        .tab-content {
+            padding-bottom: 70px; /* Para los tabs */
+        }
+        
+        .tab-pane {
+            display: none;
+            padding: 20px;
+        }
+        
+        .tab-pane.active {
+            display: block;
+        }
+        
+        /* Estado de conexión */
+        .connection-status {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 5px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+        
+        .connection-status.online {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .connection-status.offline {
+            background: #FF4136;
+            color: white;
+        }
+    </style>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Estado de conexión -->
+    <div class="connection-status" id="connectionStatus"></div>
+    
+    <!-- Prompt para instalar -->
+    <div class="pwa-status-bar" id="pwaStatusBar">
+        <i class="fas fa-mobile-alt"></i> Vision Board 2026 - App Mode
+    </div>
+    
+    <!-- Instalar como App -->
+    <div class="install-prompt" id="installPrompt">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div>
+                <strong>📱 Instalar Vision Board 2026</strong>
+                <div style="font-size: 12px; margin-top: 3px;">
+                    Para mejor experiencia y notificaciones
+                </div>
+            </div>
+            <button onclick="installPWA()" style="
+                background: white;
+                color: #FF4136;
+                border: 2px solid white;
+                padding: 8px 15px;
+                border-radius: 5px;
+                font-weight: bold;
+                cursor: pointer;
+            ">
+                INSTALAR
+            </button>
+        </div>
+    </div>
+    
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header-container">
+            <div class="logos-container">
+                <div class="logo-circle logo-1">📚</div>
+                <div class="logo-circle logo-2">👥</div>
+                <div class="logo-circle logo-3">📰</div>
+                <div class="logo-circle logo-4">💡</div>
+                <div class="logo-circle logo-5">🏛️</div>
+            </div>
+            
+            <div class="title-section">
+                <h1 class="main-title">VISION BOARD 2026</h1>
+                <div class="subtitle">¡PLANEA TU FUTURO SIN OLVIDARLO!</div>
+            </div>
+        </div>
+        
+        <!-- Permiso de notificaciones -->
+        <div class="notification-permission" id="notificationPrompt">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <i class="fas fa-bell" style="font-size: 20px;"></i>
+                <strong>Activar notificaciones</strong>
+            </div>
+            <p style="font-size: 14px; margin-bottom: 10px;">
+                Recibe recordatorios diarios de tus tareas
+            </p>
+            <button onclick="requestNotificationPermission()" style="
+                background: white;
+                color: #00AEEF;
+                border: 2px solid white;
+                padding: 8px 15px;
+                border-radius: 5px;
+                font-weight: bold;
+                cursor: pointer;
+                width: 100%;
+            ">
+                ACTIVAR NOTIFICACIONES
+            </button>
+        </div>
+        
+        <!-- Contenido por pestañas -->
+        <div class="tab-content">
+            <!-- Pestaña Inicio -->
+            <div class="tab-pane active" id="tabHome">
+                <button class="button-primary" onclick="navigateToTab('register')">
+                    <i class="fas fa-rocket"></i> ¡INICIAR ESTA MISIÓN!
+                </button>
+                
+                <div style="padding: 20px;">
+                    <h3 style="color: var(--color-tertiary); margin-bottom: 15px;">
+                        <i class="fas fa-info-circle"></i> Cómo funciona:
+                    </h3>
+                    
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border-left: 4px solid var(--color-secondary); margin-bottom: 15px;">
+                        <strong>1. 📝 Registra tu objetivo</strong>
+                        <p style="font-size: 14px; margin-top: 5px; color: #666;">
+                            Define qué quieres lograr en 2026
+                        </p>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border-left: 4px solid var(--color-tertiary); margin-bottom: 15px;">
+                        <strong>2. ⏰ Elige tu horario</strong>
+                        <p style="font-size: 14px; margin-top: 5px; color: #666;">
+                            Recibe tareas diarias a la hora que prefieras
+                        </p>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border-left: 4px solid var(--color-primary);">
+                        <strong>3. ✅ Sigue las tareas</strong>
+                        <p style="font-size: 14px; margin-top: 5px; color: #666;">
+                            Tareas personalizadas para alcanzar tu meta
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pestaña Registro -->
+            <div class="tab-pane" id="tabRegister">
+                <div style="padding: 20px;">
+                    <h2 style="color: var(--color-primary); margin-bottom: 20px;">
+                        <i class="fas fa-user-plus"></i> Registro
+                    </h2>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 5px; color: var(--color-black);">
+                            Nombre / Apodo:
+                        </label>
+                        <input type="text" id="userName" placeholder="Tu nombre" style="
+                            width: 100%;
+                            padding: 12px;
+                            border: 2px solid var(--color-black);
+                            border-radius: 5px;
+                            font-size: 16px;
+                        ">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 5px; color: var(--color-black);">
+                            Objetivo para 2026:
+                        </label>
+                        <textarea id="userGoal" placeholder="¿Qué quieres lograr este año?" rows="4" style="
+                            width: 100%;
+                            padding: 12px;
+                            border: 2px solid var(--color-black);
+                            border-radius: 5px;
+                            font-size: 16px;
+                            resize: vertical;
+                        "></textarea>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-weight: bold; margin-bottom: 5px; color: var(--color-black);">
+                            Horario de notificaciones:
+                        </label>
+                        <select id="userSchedule" style="
+                            width: 100%;
+                            padding: 12px;
+                            border: 2px solid var(--color-black);
+                            border-radius: 5px;
+                            font-size: 16px;
+                            background: white;
+                        ">
+                            <option value="8 AM">8:00 AM</option>
+                            <option value="12 PM">12:00 PM</option>
+                            <option value="2 PM">2:00 PM</option>
+                            <option value="5 PM">5:00 PM</option>
+                            <option value="7 PM">7:00 PM</option>
+                        </select>
+                    </div>
+                    
+                    <button class="button-primary" onclick="registerUser()">
+                        <i class="fas fa-check-circle"></i> REGISTRARME
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Pestaña Tareas -->
+            <div class="tab-pane" id="tabTasks">
+                <div style="padding: 20px;">
+                    <h2 style="color: var(--color-secondary); margin-bottom: 20px;">
+                        <i class="fas fa-tasks"></i> Mis Tareas
+                    </h2>
+                    
+                    <div id="tasksList">
+                        <!-- Las tareas se cargan aquí -->
+                        <div style="text-align: center; padding: 40px 20px; color: #666;">
+                            <i class="fas fa-tasks" style="font-size: 48px; margin-bottom: 15px; color: #ddd;"></i>
+                            <p>No hay tareas pendientes</p>
+                            <p style="font-size: 14px; margin-top: 10px;">
+                                Registra tu objetivo para comenzar
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pestaña Configuración -->
+            <div class="tab-pane" id="tabSettings">
+                <div style="padding: 20px;">
+                    <h2 style="color: var(--color-tertiary); margin-bottom: 20px;">
+                        <i class="fas fa-cog"></i> Configuración
+                    </h2>
+                    
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                        <strong>🔔 Notificaciones</strong>
+                        <div style="margin-top: 10px;">
+                            <button onclick="testNotification()" style="
+                                background: var(--color-tertiary);
+                                color: white;
+                                border: none;
+                                padding: 8px 15px;
+                                border-radius: 5px;
+                                font-weight: bold;
+                                cursor: pointer;
+                                margin-right: 10px;
+                            ">
+                                Probar Notificación
+                            </button>
+                            <span id="notificationStatus" style="font-size: 14px; color: #666;">
+                                Estado: Pendiente
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                        <strong>📱 Instalar App</strong>
+                        <p style="font-size: 14px; margin-top: 5px; color: #666;">
+                            Instala esta web como app para mejor experiencia
+                        </p>
+                        <button onclick="showInstallPrompt()" style="
+                            background: var(--color-primary);
+                            color: white;
+                            border: none;
+                            padding: 8px 15px;
+                            border-radius: 5px;
+                            font-weight: bold;
+                            cursor: pointer;
+                            margin-top: 10px;
+                        ">
+                            Instalar como App
+                        </button>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                        <strong>ℹ️ Información</strong>
+                        <p style="font-size: 14px; margin-top: 5px; color: #666;">
+                            Versión: 1.0.0<br>
+                            Worker API: vision-board-apk.torevueltopj.workers.dev
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tabs de navegación -->
+        <div class="app-tabs">
+            <button class="tab-button active" onclick="navigateToTab('home')">
+                <i class="fas fa-home"></i><br>
+                <span style="font-size: 12px;">Inicio</span>
+            </button>
+            <button class="tab-button" onclick="navigateToTab('tasks')">
+                <i class="fas fa-tasks"></i><br>
+                <span style="font-size: 12px;">Tareas</span>
+            </button>
+            <button class="tab-button" onclick="navigateToTab('settings')">
+                <i class="fas fa-cog"></i><br>
+                <span style="font-size: 12px;">Ajustes</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        // CONFIGURACIÓN
+        const API_BASE = 'https://vision-board-apk.torevueltopj.workers.dev';
+        let userId = localStorage.getItem('visionBoardUserId') || '';
+        let userData = null;
+        let deferredPrompt = null;
+        
+        // FUNCIONES DE NAVEGACIÓN
+        function navigateToTab(tabName) {
+            // Actualizar tabs
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('active');
+            });
+            
+            // Activar tab seleccionado
+            document.querySelector(`.tab-button:nth-child(${getTabIndex(tabName)})`).classList.add('active');
+            document.getElementById(`tab${capitalizeFirst(tabName)}`).classList.add('active');
+        }
+        
+        function getTabIndex(tabName) {
+            const tabs = ['home', 'tasks', 'settings'];
+            return tabs.indexOf(tabName) + 1;
+        }
+        
+        function capitalizeFirst(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        
+        // MANEJO DE INSTALACIÓN PWA
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallPrompt();
+        });
+        
+        function showInstallPrompt() {
+            if (deferredPrompt) {
+                document.getElementById('installPrompt').classList.add('visible');
+            }
+        }
+        
+        async function installPWA() {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                console.log('✅ PWA instalada');
+                document.getElementById('pwaStatusBar').classList.add('visible');
+            }
+            
+            deferredPrompt = null;
+            document.getElementById('installPrompt').classList.remove('visible');
+        }
+        
+        // NOTIFICACIONES PUSH
+        async function requestNotificationPermission() {
+            if ('Notification' in window && 'serviceWorker' in navigator) {
+                const permission = await Notification.requestPermission();
+                
+                if (permission === 'granted') {
+                    console.log('✅ Permiso de notificaciones concedido');
+                    
+                    // Registrar service worker
+                    try {
+                        const registration = await navigator.serviceWorker.register('/sw.js');
+                        console.log('✅ Service Worker registrado:', registration);
+                        
+                        // Suscribir a notificaciones push
+                        const subscription = await registration.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: urlBase64ToUint8Array('BLZQ5...') // Necesitas una VAPID key
+                        });
+                        
+                        console.log('✅ Suscrito a push notifications:', subscription);
+                        document.getElementById('notificationPrompt').style.display = 'none';
+                        
+                    } catch (error) {
+                        console.error('❌ Error con Service Worker:', error);
+                    }
+                }
+            } else {
+                alert('Tu navegador no soporta notificaciones push');
+            }
+        }
+        
+        function urlBase64ToUint8Array(base64String) {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding)
+                .replace(/-/g, '+')
+                .replace(/_/g, '/');
+            
+            const rawData = window.atob(base64);
+            const outputArray = new Uint8Array(rawData.length);
+            
+            for (let i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        }
+        
+        async function testNotification() {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                // Enviar notificación de prueba al service worker
+                if (navigator.serviceWorker.controller) {
+                    navigator.serviceWorker.controller.postMessage({
+                        type: 'TEST_NOTIFICATION',
+                        title: '🎯 Vision Board 2026',
+                        body: '¡Notificaciones funcionando perfectamente!',
+                        data: { taskId: 'test_123' }
+                    });
+                }
+                
+                // Mostrar notificación directa
+                new Notification('Vision Board 2026 - Prueba', {
+                    body: '¡Notificaciones funcionando!',
+                    icon: 'https://cdn-icons-png.flaticon.com/512/1006/1006771.png',
+                    badge: 'https://cdn-icons-png.flaticon.com/512/1006/1006771.png',
+                    vibrate: [200, 100, 200]
+                });
+            } else {
+                alert('Primero activa los permisos de notificación');
+            }
+        }
+        
+        // REGISTRO DE USUARIO
+        async function registerUser() {
+            const name = document.getElementById('userName').value.trim();
+            const goal = document.getElementById('userGoal').value.trim();
+            const schedule = document.getElementById('userSchedule').value;
+            
+            if (!name || !goal) {
+                alert('Por favor completa todos los campos');
+                return;
+            }
+            
+            // Generar ID único
+            userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            
+            try {
+                const response = await fetch(`${API_BASE}/apk/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: userId,
+                        name: name,
+                        goal: goal,
+                        schedule: schedule,
+                        fcmToken: '' // Para web, no necesitamos FCM
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Guardar en localStorage
+                    localStorage.setItem('visionBoardUserId', userId);
+                    localStorage.setItem('visionBoardUserName', name);
+                    localStorage.setItem('visionBoardUserGoal', goal);
+                    localStorage.setItem('visionBoardUserSchedule', schedule);
+                    
+                    // Mostrar mensaje
+                    alert('¡Registro exitoso! Tu primera tarea está lista.');
+                    
+                    // Navegar a tareas
+                    navigateToTab('tasks');
+                    
+                    // Cargar tareas
+                    loadUserTasks();
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (error) {
+                alert('Error de conexión. Intenta nuevamente.');
+                console.error('Error:', error);
+            }
+        }
+        
+        // CARGAR TAREAS
+        async function loadUserTasks() {
+            if (!userId) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/apk/tasks?userId=${userId}`);
+                const data = await response.json();
+                
+                const tasksList = document.getElementById('tasksList');
+                
+                if (data.success && data.tasks && data.tasks.length > 0) {
+                    tasksList.innerHTML = '';
+                    
+                    data.tasks.forEach(task => {
+                        const taskDiv = document.createElement('div');
+                        taskDiv.style.cssText = `
+                            background: ${task.completed ? '#E8F5E9' : '#FFF3CD'};
+                            border: 3px solid ${task.completed ? '#4CAF50' : '#FFC107'};
+                            padding: 15px;
+                            margin-bottom: 15px;
+                            border-radius: 10px;
+                            box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+                        `;
+                        
+                        taskDiv.innerHTML = `
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <div style="
+                                    background: ${task.completed ? '#4CAF50' : '#FFC107'};
+                                    color: white;
+                                    width: 30px;
+                                    height: 30px;
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    margin-right: 10px;
+                                    font-weight: bold;
+                                ">
+                                    ${task.completed ? '✓' : '🎯'}
+                                </div>
+                                <div style="font-weight: bold; color: #333;">${task.title}</div>
+                            </div>
+                            <div style="color: #555; margin-bottom: 10px;">${task.description}</div>
+                            <div style="
+                                background: rgba(0, 174, 239, 0.1);
+                                padding: 10px;
+                                border-radius: 5px;
+                                font-style: italic;
+                                color: #0077cc;
+                                margin-bottom: 10px;
+                                font-size: 14px;
+                            ">
+                                💡 ${task.advice}
+                            </div>
+                            ${!task.completed ? `
+                                <button onclick="completeTask('${task.id}')" style="
+                                    background: #4CAF50;
+                                    color: white;
+                                    border: none;
+                                    padding: 10px 15px;
+                                    border-radius: 5px;
+                                    font-weight: bold;
+                                    cursor: pointer;
+                                    width: 100%;
+                                ">
+                                    ✅ COMPLETAR TAREA
+                                </button>
+                            ` : `
+                                <div style="text-align: center; color: #4CAF50; font-weight: bold;">
+                                    ✅ COMPLETADA
+                                </div>
+                            `}
+                        `;
+                        
+                        tasksList.appendChild(taskDiv);
+                    });
+                }
+            } catch (error) {
+                console.error('Error cargando tareas:', error);
+            }
+        }
+        
+        // COMPLETAR TAREA
+        async function completeTask(taskId) {
+            try {
+                const response = await fetch(`${API_BASE}/apk/complete-task`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: userId,
+                        taskId: taskId
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Recargar tareas
+                    loadUserTasks();
+                    
+                    // Mostrar notificación local
+                    if ('Notification' in window && Notification.permission === 'granted') {
+                        new Notification('🎉 ¡Tarea completada!', {
+                            body: `Racha: ${data.streak} días`,
+                            icon: 'https://cdn-icons-png.flaticon.com/512/1006/1006771.png'
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error completando tarea:', error);
+            }
+        }
+        
+        // DETECCIÓN DE CONEXIÓN
+        function updateConnectionStatus() {
+            const statusElement = document.getElementById('connectionStatus');
+            
+            if (navigator.onLine) {
+                statusElement.textContent = '✅ Conectado';
+                statusElement.className = 'connection-status online';
+            } else {
+                statusElement.textContent = '⚠️ Sin conexión - Modo offline';
+                statusElement.className = 'connection-status offline';
+            }
+        }
+        
+        // INICIALIZACIÓN
+        async function initApp() {
+            // Detectar conexión
+            updateConnectionStatus();
+            window.addEventListener('online', updateConnectionStatus);
+            window.addEventListener('offline', updateConnectionStatus);
+            
+            // Verificar si ya está registrado
+            if (userId) {
+                // Ocultar prompt de registro
+                document.getElementById('notificationPrompt').style.display = 'none';
+                
+                // Cargar tareas si estamos en esa pestaña
+                if (window.location.hash === '#tasks') {
+                    loadUserTasks();
+                }
+            }
+            
+            // Registrar service worker si está disponible
+            if ('serviceWorker' in navigator) {
+                try {
+                    await navigator.serviceWorker.register('/sw.js');
+                    console.log('✅ Service Worker registrado');
+                } catch (error) {
+                    console.log('⚠️ Service Worker no registrado:', error);
+                }
+            }
+            
+            // Pedir permiso de notificaciones después de 3 segundos
+            setTimeout(() => {
+                if ('Notification' in window && Notification.permission === 'default') {
+                    document.getElementById('notificationPrompt').classList.add('visible');
+                }
+            }, 3000);
+        }
+        
+        // Ejecutar inicialización
+        window.addEventListener('load', initApp);
+    </script>
+</body>
+</html>
